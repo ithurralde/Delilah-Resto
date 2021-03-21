@@ -27,10 +27,16 @@ server.get('/test_middleware', interceptar, (request, response) => {
 });
 
 
-server.get('/ingresar_usuario', (request, response) => {
-
+server.get('/obtener_usuario', (request, response) => {
+    let usuario = request.body;
+    transactionHandler.getUsuario(usuario)
+    .then(respuesta => { response.status(200).send(respuesta)})
+    .catch(error => console.error("Error: ", error));
 });
 
 server.post('/crear_usuario', (request, response) => {
-
+    let usuario = request.body;
+    transactionHandler.crearUsuario(usuario)
+    .then(resultado => { response.status(201).send(resultado);})
+    .catch(error => { console.error("Error: ", error)});
 });
