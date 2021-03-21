@@ -5,10 +5,10 @@ const myDataBase = new Sequelize(path);
 myDataBase
   .authenticate()
   .then(() => {
-    console.log('Estamos conectado');
+    console.log('Estamos conectado a la base de datos');
   })
   .catch((error) => {
-    console.error('Error de conexion', error);
+    console.error('Error de conexion con la base de datos', error);
   });
 
 module.exports = myDataBase;

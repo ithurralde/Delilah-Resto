@@ -3,7 +3,7 @@ let server = express();
 const transactionHandler = require('./DBHandler.js');
 
 server.listen(3000, function () {
-    console.log('Estamos conectados al puerto 3000');
+    console.log('Servidor conectado en el puerto 3000');
 });
 
 server.use(express.json());
