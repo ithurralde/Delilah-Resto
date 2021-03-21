@@ -8,7 +8,8 @@ server.listen(3000, function () {
 
 server.use(express.json());
 
-server.use((error, require, response, next) => {
+//middleware global
+server.use((error, request, response, next) => {
     if (error) {
       response.status(500).send('Error');
     } else {
@@ -16,6 +17,20 @@ server.use((error, require, response, next) => {
     }
   });
 
-server.get('/mi_ruta', (require, response) => {
+//middleware local
+function interceptar(request, response, next){
+    response.json("Acceso denegado");
+    return next();
+}
+server.get('/test_middleware', interceptar, (request, response) => {
+
+});
+
+
+server.get('/ingresar_usuario', (request, response) => {
+
+});
+
+server.post('/crear_usuario', (request, response) => {
 
 });
