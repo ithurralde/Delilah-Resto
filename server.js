@@ -36,9 +36,9 @@ server.get('/usuario', (request, response) => {
 
 server.post('/crear_usuario', (request, response) => {
     let usuario = request.body;
-    console.log(usuario);
-    response.status(201).send({ message: "Usuario creado correctamente. "});
-    /*transactionHandler.crearUsuario(usuario)
+    // console.log(usuario);
+    // response.status(201).send({ message: "Usuario creado correctamente. "});
+    transactionHandler.crearUsuario(usuario)
     .then(resultado => { response.status(201).send(resultado);})
-    .catch(error => { console.error("Error: ", error)});*/
+    .catch(error => { console.error("Error: ", error)});
 });
