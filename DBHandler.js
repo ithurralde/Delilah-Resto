@@ -28,10 +28,8 @@ async function crearPedido(pedido) {
     replacements: [pedido.id, pedido.numeroPedido, pedido.idUsuario],
   });
   let i = 0;
-  console.log("Cuanto vale i? " + i);
-  console.log("y la cantidad de plato? " + pedido.platos.lenght);
-  while (i <= pedido.platos.lenght){
-    await rellenarFormaParte(pedido, pedidos.platos[i]);
+  while (i < pedido.platos.length){
+    await rellenarFormaParte(pedido, pedido.platos[i]);
     i++;
   }
   return { message: "Numero pedido realizado " + pedido.numeroPedido };
@@ -41,7 +39,7 @@ async function rellenarFormaParte(pedido, plato){
   await myDataBase.query('INSERT INTO forma_parte (id_pedido, id_plato) VALUES (?, ?)', {
     replacements: [pedido.id, plato],
   });
-  return { message: "Plato agregado exitosamente: " + pedidos.plato[i]};
+  return { message: "Plato agregado exitosamente: " + plato};
 }
 
 module.exports = { crearUsuario, getUsuario, crearPlato, crearPedido };
