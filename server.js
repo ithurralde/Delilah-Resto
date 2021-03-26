@@ -53,9 +53,17 @@ server.post('/crear_plato', (request, response) => {
 
 server.post('/crear_pedido', (request, response) => {
   let pedido = request.body;
-  console.log("Y el request????? " + pedido.platos.length);
-  console.log("a ver : " + pedido.platos[0] + ", "+ pedido.platos[1] + ", " + pedido.platos[2]);
+  // console.log("Y el request????? " + pedido.platos.length);
+  // console.log("a ver : " + pedido.platos[0] + ", "+ pedido.platos[1] + ", " + pedido.platos[2]);
   transactionHandler.crearPedido(pedido)
   .then(respuesta => response.status(200).send(respuesta))
   .catch(error => console.error("Error: ", error));
 })
+
+server.get('/pedido', (request, response) => {
+  let pedido = request.query.value;
+  console.log("el pedido es: " + pedido);
+  transactionHandler.getPedido(pedido)
+  .then(respuesta => response.status(200).send(respuesta))
+  .catch(error => console.error(error));
+});

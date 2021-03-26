@@ -1,3 +1,4 @@
+const { response } = require('express');
 const { QueryTypes } = require('sequelize');
 const myDataBase = require('./conectionDB');
 
@@ -9,11 +10,10 @@ async function crearUsuario(usuario) {
   }
   
 async function getUsuario(usuario) {
-    await myDataBase.query('SELECT * FROM usuarios WHERE user = ? AND password = ?', {
+    return await myDataBase.query('SELECT * FROM usuarios WHERE user = ? AND password = ?', {
         replacements: [usuario.user, usuario.password],
         type: QueryTypes.SELECT
     });
-    return { message: "Usuario ingresado correctamente: " + usuario.user };
 }
 
 async function crearPlato(plato){
@@ -42,4 +42,23 @@ async function rellenarFormaParte(pedido, plato){
   return { message: "Plato agregado exitosamente: " + plato};
 }
 
-module.exports = { crearUsuario, getUsuario, crearPlato, crearPedido };
+async function getPedido(numeroPedido){
+  let platos = await myDataBase.query('SELECT id_plato FROM forma_parte WHERE id_pedido = ?', {
+    replacements: [numeroPedido],
+    type: QueryTypes.SELECT
+  });
+
+  let resultado = [];
+  for (let i = 0; i < platos.length; i++){
+    resultado[i] = await myDataBase.query('SELECT nombre_plato FROM platos WHERE id = ?', {
+      replacements: [platos[i].id_plato],
+      type: QueryTypes.SELECT
+    });
+  }
+
+  let respuesta = "";
+  resultado.forEach(plato => respuesta += plato[0].nombre_plato + ", ");
+  return { message: respuesta }
+}
+
+module.exports = { crearUsuario, getUsuario, crearPlato, crearPedido, getPedido };
