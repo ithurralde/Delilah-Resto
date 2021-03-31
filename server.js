@@ -30,7 +30,7 @@ server.get('/test_middleware', interceptar, (request, response) => {
 
 server.get('/usuario', (request, response) => {
     let usuario = request.body;
-    transactionHandler.getUsuario(usuario)
+    transactionHandler.logginUsuario(usuario)
     .then(respuesta => { response.status(200).send(respuesta)})
     .catch(error => console.error("Usuario o contraseña invalidos. Error: ", error));
 });
@@ -44,9 +44,41 @@ server.post('/crear_usuario', (request, response) => {
     .catch(error => { console.error("Error: ", error)});
 });
 
-server.post('/crear_plato', (request, response) => {
+
+async function isAdmin(request, response, next){
+  let idParams = request.query.idUser;
+  let usuario = await transactionHandler.getUsuario(idParams);
+  console.log(usuario[0]);
+    if (!usuario[0].admin){
+      let message = { message: "Tiene que ingresar como administrador para realizar la accion solicitada." }
+      return response.status(403).send(message);
+    }
+  return next();
+}
+
+async function existe(request, response, next){
+  let idParams = request.query.idUser;
+  let usuario = await transactionHandler.getUsuario(idParams);
+  console.log("araerear");
+  console.log(usuario[0]);
+  if (usuario[0] == undefined){
+    console.error("No existe el usuario.");
+    let message =  { message : "El usuario no existe." };
+    return response.status(404).send(message);
+  }
+  return next();
+}
+
+server.post('/crear_plato', existe, isAdmin, (request, response) => {
   let plato = request.body;
   transactionHandler.crearPlato(plato)
+  .then(respuesta => response.status(201).send(respuesta))
+  .catch(error => console.error("Error: " + error));
+});
+
+server.post('/actualizar_precio', existe, isAdmin, (request, response) => {
+  let precio = request.body;
+  transactionHandler.actualizarPrecio(precio)
   .then(respuesta => response.status(201).send(respuesta))
   .catch(error => console.error("Error: " + error));
 });

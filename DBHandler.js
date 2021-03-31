@@ -3,13 +3,13 @@ const { QueryTypes } = require('sequelize');
 const myDataBase = require('./conectionDB');
 
 async function crearUsuario(usuario) {
-    await myDataBase.query('INSERT INTO usuarios (user, password, name, email) VALUES (?, ?, ?, ?)', {
-      replacements: [usuario.user, usuario.password, usuario.name, usuario.email],
+    await myDataBase.query('INSERT INTO usuarios (user, password, name, email, telefono, direccion, admin) VALUES (?, ?, ?, ?, ?, ?, ?)', {
+      replacements: [usuario.user, usuario.password, usuario.name, usuario.email, usuario.telefono, usuario.direccion, usuario.admin],
     });
     return { message: 'Usuario registrado exitosamente' };
   }
   
-async function getUsuario(usuario) {
+async function logginUsuario(usuario) {
     let resultado = await myDataBase.query('SELECT * FROM usuarios WHERE user = ? AND password = ?', {
         replacements: [usuario.user, usuario.password],
         type: QueryTypes.SELECT
@@ -20,11 +20,30 @@ async function getUsuario(usuario) {
       return resultado;
 }
 
+async function getUsuario(id){
+  return await myDataBase.query('SELECT * FROM usuarios WHERE id = ?', {
+    replacements: [id],
+    type: QueryTypes.SELECT
+  });
+}
+
 async function crearPlato(plato){
   await myDataBase.query('INSERT INTO platos (nombre_plato, descripcion) VALUES (?, ?)', {
     replacements: [plato.nombrePlato, plato.descripcion],
   });
   return { message: 'Plato creado'};
+}
+
+async function actualizarPrecio(idPLato){
+  let plato = await myDataBase.query('SELECT * FROM platos WHERE id = ?', {
+    replacements: [id = idPLato.id],
+    type: QueryTypes.SELECT
+  });
+  await myDataBase.query('UPDATE platos SET precio = ? WHERE id = ?', {
+    replacements: [idPLato.precio, plato[0].id],
+    type: QueryTypes.UPDATE
+  });
+  return { message: "Precio actualizado correctamente."};
 }
 
 async function crearPedido(pedido) {
@@ -65,4 +84,4 @@ async function getPedido(numeroPedido){
   return { message: respuesta }
 }
 
-module.exports = { crearUsuario, getUsuario, crearPlato, crearPedido, getPedido };
+module.exports = { crearUsuario, logginUsuario, getUsuario, crearPlato, actualizarPrecio, crearPedido, getPedido };
