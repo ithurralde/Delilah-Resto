@@ -10,10 +10,14 @@ async function crearUsuario(usuario) {
   }
   
 async function getUsuario(usuario) {
-    return await myDataBase.query('SELECT * FROM usuarios WHERE user = ? AND password = ?', {
+    let resultado = await myDataBase.query('SELECT * FROM usuarios WHERE user = ? AND password = ?', {
         replacements: [usuario.user, usuario.password],
         type: QueryTypes.SELECT
     });
+    if (resultado.length == 0)
+      return { message: "Usuario o contraseña invalidos."};
+    else
+      return resultado;
 }
 
 async function crearPlato(plato){

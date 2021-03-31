@@ -32,7 +32,7 @@ server.get('/usuario', (request, response) => {
     let usuario = request.body;
     transactionHandler.getUsuario(usuario)
     .then(respuesta => { response.status(200).send(respuesta)})
-    .catch(error => console.error("Error: ", error));
+    .catch(error => console.error("Usuario o contraseña invalidos. Error: ", error));
 });
 
 server.post('/crear_usuario', (request, response) => {
