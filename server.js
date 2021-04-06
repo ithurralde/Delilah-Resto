@@ -56,7 +56,7 @@ async function isAdmin(request, response, next){
   return next();
 }
 
-async function existe(request, response, next){
+async function existeUsario(request, response, next){
   let idParams = request.query.idUser;
   let usuario = await transactionHandler.getUsuario(idParams);
   console.log("araerear");
@@ -69,14 +69,14 @@ async function existe(request, response, next){
   return next();
 }
 
-server.post('/crear_plato', existe, isAdmin, (request, response) => {
+server.post('/crear_plato', existeUsario, isAdmin, (request, response) => {
   let plato = request.body;
   transactionHandler.crearPlato(plato)
   .then(respuesta => response.status(201).send(respuesta))
   .catch(error => console.error("Error: " + error));
 });
 
-server.post('/actualizar_precio', existe, isAdmin, (request, response) => {
+server.post('/actualizar_precio', existeUsario, isAdmin, (request, response) => {
   let precio = request.body;
   transactionHandler.actualizarPrecio(precio)
   .then(respuesta => response.status(201).send(respuesta))

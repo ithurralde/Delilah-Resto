@@ -1,1 +1,8 @@
 Video express 1: query params a la hora 1:39:00
+
+npm init --yes
+npm i express
+npm i sequelize
+npm i mysql2
+instalar xampp para apache
+postman para get y post
