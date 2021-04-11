@@ -28,7 +28,7 @@ server.get('/test_middleware', interceptar, (request, response) => {
 });
 
 
-server.get('/usuario', (request, response) => {
+server.get('/usuario/loggin', (request, response) => {
     let usuario = request.body;
     transactionHandler.logginUsuario(usuario)
     .then(respuesta => { response.status(200).send(respuesta)})

@@ -2,66 +2,78 @@ swagger: "2.0"
 info:
   description: "This is a sample server Petstore server.  You can find out more about     Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).      For this sample, you can use the api key `special-key` to test the authorization     filters."
   version: "1.0.0"
-  title: "Swagger Delilah Resto"
+  title: "Swagger Petstore"
   termsOfService: "http://swagger.io/terms/"
   contact:
     email: "apiteam@swagger.io"
   license:
     name: "Apache 2.0"
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-host: "localhost:3000"
-basePath: "/"
+host: "petstore.swagger.io"
+basePath: "/v2"
 tags:
-- name: "usuarios"
-  description: "Everything about your Users"
-- name: "platos"
+- name: "pet"
+  description: "Everything about your Pets"
+  externalDocs:
+    description: "Find out more"
+    url: "http://swagger.io"
+- name: "store"
   description: "Access to Petstore orders"
-- name: "pedidos"
+- name: "user"
   description: "Operations about user"
-- name: "forma_parte"
-  description: "La tabla que se genera entre platos y pedidos"
+  externalDocs:
+    description: "Find out more about our store"
+    url: "http://swagger.io"
 schemes:
 - "https"
 - "http"
 paths:
-  /crear_usuario:
+  /pet:
     post:
       tags:
-      - "usuarios"
-      summary: "Añade un nuevo usuario a la aplicación"
+      - "pet"
+      summary: "Add a new pet to the store"
       description: ""
-      operationId: ""
+      operationId: "addPet"
       consumes:
       - "application/json"
+      - "application/xml"
       produces:
+      - "application/xml"
       - "application/json"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "Formato JSON para añadir un usuario"
-        required: true
-        schema:
-          $ref: "#/definitions/Usuario"
-      responses:
-        "201":
-          description: "Usuario registrado exitosamente"
-    put:
-      tags:
-      - "usuarios"
-      summary: "Actualiza la contraseña de un usuario"
-      description: ""
-      operationId: "updatePet"
-      consumes:
-      - "application/json"
-      produces:
-        - "application/json"
       parameters:
       - in: "body"
         name: "body"
         description: "Pet object that needs to be added to the store"
         required: true
         schema:
-          $ref: "#/definitions/Usuario"
+          $ref: "#/definitions/Pet"
+      responses:
+        "405":
+          description: "Invalid input"
+      security:
+      - petstore_auth:
+        - "write:pets"
+        - "read:pets"
+    put:
+      tags:
+      - "pet"
+      summary: "Update an existing pet"
+      description: ""
+      operationId: "updatePet"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Pet object that needs to be added to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/Pet"
       responses:
         "400":
           description: "Invalid ID supplied"
@@ -69,33 +81,6 @@ paths:
           description: "Pet not found"
         "405":
           description: "Validation exception"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
-  /usuario:
-    get:
-      tags:
-      - "usuarios"
-      summary: ""
-      produces:
-      - "application/json"
-      parameters:
-      - name: "body"
-        in: "body"
-        description: "Campos de usuario y contraseña para ingresar"
-        required: true
-        schema:
-          $ref: "#/definitions/GetUsuario"
-      responses:
-        "200":
-          description: "successful operation"
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/GetUsuario"
-        "400":
-          description: "Invalid status value"
       security:
       - petstore_auth:
         - "write:pets"
@@ -130,7 +115,7 @@ paths:
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/Usuario"
+              $ref: "#/definitions/Pet"
         "400":
           description: "Invalid status value"
       security:
@@ -162,7 +147,7 @@ paths:
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/Usuario"
+              $ref: "#/definitions/Pet"
         "400":
           description: "Invalid tag value"
       security:
@@ -191,7 +176,7 @@ paths:
         "200":
           description: "successful operation"
           schema:
-            $ref: "#/definitions/Usuario"
+            $ref: "#/definitions/Pet"
         "400":
           description: "Invalid ID supplied"
         "404":
@@ -663,50 +648,43 @@ definitions:
         type: "string"
     xml:
       name: "Tag"
-  GetUsuario:
+  Pet:
     type: "object"
     required:
     - "name"
-    - "password"
+    - "photoUrls"
     properties:
-      user:
-        type: "string"
-        example: "user1"
-      password:
-        type: "string"
-        example: "contraseña123"
-  Usuario:
-    type: "object"
-    required:
-    - "user"
-    - "password"
-    - "name"
-    - "email"
-    - "direccion"
-    - "telefono"
-    - "admin"
-    properties:
-      user:
-        type: "string"
-        example: "admin"
-      password:
-        type: "string"
-        example: "admin123"
+      id:
+        type: "integer"
+        format: "int64"
+      category:
+        $ref: "#/definitions/Category"
       name:
         type: "string"
-        example: "admin04"
-      email:
+        example: "doggie"
+      photoUrls:
+        type: "array"
+        xml:
+          name: "photoUrl"
+          wrapped: true
+        items:
+          type: "string"
+      tags:
+        type: "array"
+        xml:
+          name: "tag"
+          wrapped: true
+        items:
+          $ref: "#/definitions/Tag"
+      status:
         type: "string"
-        example: "admin@gmail.com"
-      direccion:
-        type: "string"
-        example: "14 de julio 1554"
-      telefono:
-        type: "string"
-        example: "+54011485619"
-      admin:
-        type: "boolean"
-        example: "true"
+        description: "pet status in the store"
+        enum:
+        - "available"
+        - "pending"
+        - "sold"
+    xml:
+      name: "Pet"
   ApiResponse:
     type: "object"
     properties:
