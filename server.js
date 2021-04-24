@@ -34,11 +34,7 @@ const autenticarUsuario = (request, response, next) => {
   try {
       const token = request.headers.authorization.split(' ')[1];
       const verificarToken = jwt.verify(token, jwtClave);
-      console.log("aca papa");
-      console.log(verificarToken);
       if (verificarToken) {
-        console.log("hola?");
-        console.log(verificarToken)
         request.usuario = verificarToken;
         console.log(request.usuario);
         return next();
@@ -48,10 +44,12 @@ const autenticarUsuario = (request, response, next) => {
   }
 }
 
-server.get('/usuario/loggin', autenticarUsuario, (request, response) => {
+server.get('/usuario/loggin', (request, response) => {
     let usuario = request.body;
     transactionHandler.logginUsuario(usuario)
-    .then(respuesta => { response.status(200).send(respuesta); })
+    .then(respuesta => { 
+      token = jwt.sign({usuario: usuario.user, id: usuario.id}, jwtClave);
+      response.status(200).send(respuesta); })
     .catch(respuesta => {response.status(401).send({ message: "Usuario o contraseña invalidos."})});
 
 });
@@ -61,9 +59,6 @@ server.post('/crear_usuario', (request, response) => {
     // console.log(usuario);
     // response.status(201).send({ message: "Usuario creado correctamente. "});
     token = jwt.sign({usuario: usuario.user, id: usuario.id}, jwtClave);
-    console.log(token);
-    console.log("aca querido: ");
-    console.log(usuario);
     transactionHandler.crearUsuario(usuario)
     .then(resultado => { response.status(201).send(resultado);})
     .catch(error => { console.error("Error: ", error)});
@@ -94,21 +89,21 @@ async function existeUsario(request, response, next){
   return next();
 }
 
-server.post('/crear_plato', existeUsario, isAdmin, (request, response) => {
+server.post('/crear_plato', autenticarUsuario, existeUsario, isAdmin, (request, response) => {
   let plato = request.body;
   transactionHandler.crearPlato(plato)
   .then(respuesta => response.status(201).send(respuesta))
   .catch(error => console.error("Error: " + error));
 });
 
-server.post('/actualizar_precio', existeUsario, isAdmin, (request, response) => {
+server.post('/actualizar_precio', autenticarUsuario, existeUsario, isAdmin, (request, response) => {
   let precio = request.body;
   transactionHandler.actualizarPrecio(precio)
   .then(respuesta => response.status(201).send(respuesta))
   .catch(error => console.error("Error: " + error));
 });
 
-server.post('/crear_pedido', (request, response) => {
+server.post('/crear_pedido', autenticarUsuario, (request, response) => {
   let pedido = request.body;
   // console.log("Y el request????? " + pedido.platos.length);
   // console.log("a ver : " + pedido.platos[0] + ", "+ pedido.platos[1] + ", " + pedido.platos[2]);
@@ -117,7 +112,7 @@ server.post('/crear_pedido', (request, response) => {
   .catch(error => console.error("Error: ", error));
 })
 
-server.get('/pedido', (request, response) => {
+server.get('/pedido', autenticarUsuario, (request, response) => {
   let pedido = request.query.value;
   console.log("el pedido es: " + pedido);
   transactionHandler.getPedido(pedido)
