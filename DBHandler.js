@@ -14,7 +14,7 @@ async function logginUsuario(usuario) {
         type: QueryTypes.SELECT
     });
     if (resultado.length == 0)
-      return { message: "Usuario o contraseña invalidos."};
+      return status(401);
     else
       return resultado;
 }

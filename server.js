@@ -32,18 +32,19 @@ server.get('/test_middleware', interceptar, (request, response) => {
 
 const autenticarUsuario = (request, response, next) => {
   try {
-      token = request.headers.authorization.split(' ')[1];
+      const token = request.headers.authorization.split(' ')[1];
       const verificarToken = jwt.verify(token, jwtClave);
       console.log("aca papa");
       console.log(verificarToken);
       if (verificarToken) {
         console.log("hola?");
+        console.log(verificarToken)
         request.usuario = verificarToken;
+        console.log(request.usuario);
         return next();
       }
   } catch (error){
       response.json({ error: "Error al validar usuario." }); 
-    // response.json({token, jwtClave});
   }
 }
 
@@ -51,21 +52,21 @@ server.get('/usuario/loggin', autenticarUsuario, (request, response) => {
     let usuario = request.body;
     transactionHandler.logginUsuario(usuario)
     .then(respuesta => { response.status(200).send(respuesta); })
-    .catch(error => console.error("Usuario o contraseña invalidos. Error: ", error));
-    
+    .catch(respuesta => {response.status(401).send({ message: "Usuario o contraseña invalidos."})});
+
 });
 
 server.post('/crear_usuario', (request, response) => {
     let usuario = request.body;
     // console.log(usuario);
     // response.status(201).send({ message: "Usuario creado correctamente. "});
-    token = jwt.sign({usuario: usuario.user}, jwtClave);
-    jwt.verify(token, jwtClave);
+    token = jwt.sign({usuario: usuario.user, id: usuario.id}, jwtClave);
     console.log(token);
+    console.log("aca querido: ");
+    console.log(usuario);
     transactionHandler.crearUsuario(usuario)
     .then(resultado => { response.status(201).send(resultado);})
     .catch(error => { console.error("Error: ", error)});
-    //response.json({ token });
 });
 
 
