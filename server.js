@@ -2,6 +2,9 @@ const { request, response } = require('express');
 let express = require('express');
 let server = express();
 const transactionHandler = require('./DBHandler.js');
+const jwt = require("jsonwebtoken");
+const jwtClave = "Cl4V3_J0t4D0bl3VT3$";
+let token;
 
 server.listen(3000, function () {
     console.log('Servidor conectado en el puerto 3000');
@@ -27,21 +30,42 @@ server.get('/test_middleware', interceptar, (request, response) => {
 
 });
 
+const autenticarUsuario = (request, response, next) => {
+  try {
+      token = request.headers.authorization.split(' ')[1];
+      const verificarToken = jwt.verify(token, jwtClave);
+      console.log("aca papa");
+      console.log(verificarToken);
+      if (verificarToken) {
+        console.log("hola?");
+        request.usuario = verificarToken;
+        return next();
+      }
+  } catch (error){
+      response.json({ error: "Error al validar usuario." }); 
+    // response.json({token, jwtClave});
+  }
+}
 
-server.get('/usuario/loggin', (request, response) => {
+server.get('/usuario/loggin', autenticarUsuario, (request, response) => {
     let usuario = request.body;
     transactionHandler.logginUsuario(usuario)
-    .then(respuesta => { response.status(200).send(respuesta)})
+    .then(respuesta => { response.status(200).send(respuesta); })
     .catch(error => console.error("Usuario o contraseña invalidos. Error: ", error));
+    
 });
 
 server.post('/crear_usuario', (request, response) => {
     let usuario = request.body;
     // console.log(usuario);
     // response.status(201).send({ message: "Usuario creado correctamente. "});
+    token = jwt.sign({usuario: usuario.user}, jwtClave);
+    jwt.verify(token, jwtClave);
+    console.log(token);
     transactionHandler.crearUsuario(usuario)
     .then(resultado => { response.status(201).send(resultado);})
     .catch(error => { console.error("Error: ", error)});
+    //response.json({ token });
 });
 
 

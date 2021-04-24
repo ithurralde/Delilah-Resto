@@ -1,7 +1,6 @@
 const { response } = require('express');
 const { QueryTypes } = require('sequelize');
 const myDataBase = require('./conectionDB');
-
 async function crearUsuario(usuario) {
     await myDataBase.query('INSERT INTO usuarios (user, password, name, email, telefono, direccion, admin) VALUES (?, ?, ?, ?, ?, ?, ?)', {
       replacements: [usuario.user, usuario.password, usuario.name, usuario.email, usuario.telefono, usuario.direccion, usuario.admin],
