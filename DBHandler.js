@@ -51,12 +51,12 @@ async function crearPlato(plato){
 
 async function actualizarPrecio(idPLato){
   let plato = await myDataBase.query('SELECT * FROM platos WHERE id = ?', {
-    replacements: [id = idPLato.id],
+    replacements: [idPLato.id],
     type: QueryTypes.SELECT
   });
   await myDataBase.query('UPDATE platos SET precio = ? WHERE id = ?', {
     replacements: [idPLato.precio, plato[0].id],
-    //type: QueryTypes.UPDATE
+    type: QueryTypes.UPDATE
   });
   return { message: "Precio actualizado correctamente."};
 }

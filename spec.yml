@@ -1,11 +1,10 @@
 swagger: "2.0"
 info:
-  description: "This is a sample server Petstore server.  You can find out more about     Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).      For this sample, you can use the api key `special-key` to test the authorization     filters."
+  description: "This is a sample server Delilah Resto server.  You can find out more about     Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).      For this sample, you can use the api key `special-key` to test the authorization     filters."
   version: "1.0.0"
   title: "Swagger Delilah Resto"
-  termsOfService: "http://swagger.io/terms/"
   contact:
-    email: "apiteam@swagger.io"
+    email: "santi.ithurralde@gmail.com"
   license:
     name: "Apache 2.0"
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
@@ -13,15 +12,12 @@ host: "localhost:3000"
 basePath: "/"
 tags:
 - name: "usuarios"
-  description: "Everything about your Users"
+  description: "Todos los end-points relacionados a un usuario"
 - name: "platos"
-  description: "Access to Petstore orders"
+  description: "Todos los end-points relacionados a un plato"
 - name: "pedidos"
-  description: "Operations about user"
-- name: "forma_parte"
-  description: "La tabla que se genera entre platos y pedidos"
+  description: "Todos los end-points relacionados a un pedido"
 schemes:
-- "https"
 - "http"
 paths:
   /crear_usuario:
@@ -45,7 +41,28 @@ paths:
       responses:
         "201":
           description: "Usuario registrado exitosamente"
-  /update_password:  
+  /usuario/loggin:
+    get:
+      tags:
+      - "usuarios"
+      summary: "Ingresa a la plataforma como usuario registrado"
+      description: ""
+      operationId: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Formato JSON para añadir un usuario"
+        required: true
+        schema:
+          $ref: "#/definitions/Loggin"
+      responses:
+        "201":
+          description: "Usuario registrado exitosamente"
+  /usuario/update_password:  
     put:
       tags:
       - "usuarios"
@@ -68,10 +85,6 @@ paths:
           description: "Contraseña actualizada."
         "404":
           description: "No existe el usuario."
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
   /usuario:
     get:
       tags:
@@ -95,11 +108,7 @@ paths:
               $ref: "#/definitions/GetUsuario"
         "404":
           description: "No existe el usuario"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
-  /crear_plato:
+  /plato/crear_plato:
     post:
       tags:
       - "platos"
@@ -120,7 +129,33 @@ paths:
       responses:
         "201":
           description: "Plato creado"
-  /crear_pedido:
+  /plato/actualizar_precio:
+    put:
+      tags:
+      - "platos"
+      summary: "Crea un nuevo plato"
+      description: ""
+      operationId: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Formato JSON para crear un plato"
+        required: true
+        schema:
+          $ref: "#/definitions/ActualizarPrecio"
+      - in: "query"
+        name: "idUser"
+        type: "integer"
+        description: "Id del usuario que quiere actualizar el precio"
+        required: true
+      responses:
+        "201":
+          description: "Plato creado"
+  /pedido/crear_pedido:
     post:
       tags:
       - "pedidos"
@@ -142,111 +177,26 @@ paths:
         "201":
           description: "Plato creado"
   /pedido:
-    post:
+    get:
       tags:
       - "pedidos"
       summary: "Obtiene un pedido"
       description: ""
       operationId: ""
       consumes:
-      - "application/json"
+      - "query params"
       produces:
       - "application/json"
       parameters:
-      - in: "body"
-        name: "body"
-        description: "Formato JSON para crear un plato"
-        required: true
-        schema:
-          $ref: "#/definitions/Plato"
+        - in: "query"
+          name: "value"
+          type: "integer"
+          description: "Id del pedido que desea obtener, ejemplo: value=2"
+          required: true
       responses:
-        "201":
-          description: "Plato creado"      
-  
-securityDefinitions:
-  petstore_auth:
-    type: "oauth2"
-    authorizationUrl: "http://petstore.swagger.io/oauth/dialog"
-    flow: "implicit"
-    scopes:
-      write:pets: "modify pets in your account"
-      read:pets: "read your pets"
-  api_key:
-    type: "apiKey"
-    name: "api_key"
-    in: "header"
+        "200":
+          description: "JSON del pedido" 
 definitions:
-  Order:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      petId:
-        type: "integer"
-        format: "int64"
-      quantity:
-        type: "integer"
-        format: "int32"
-      shipDate:
-        type: "string"
-        format: "date-time"
-      status:
-        type: "string"
-        description: "Order Status"
-        enum:
-        - "placed"
-        - "approved"
-        - "delivered"
-      complete:
-        type: "boolean"
-        default: false
-    xml:
-      name: "Order"
-  Category:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      name:
-        type: "string"
-    xml:
-      name: "Category"
-  User:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      username:
-        type: "string"
-      firstName:
-        type: "string"
-      lastName:
-        type: "string"
-      email:
-        type: "string"
-      password:
-        type: "string"
-      phone:
-        type: "string"
-      userStatus:
-        type: "integer"
-        format: "int32"
-        description: "User Status"
-    xml:
-      name: "User"
-  Tag:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      name:
-        type: "string"
-    xml:
-      name: "Tag"
   GetUsuario:
     type: "object"
     required:
@@ -259,6 +209,18 @@ definitions:
       password:
         type: "string"
         example: "contraseña123"
+  Loggin:
+    type: "object"
+    required:
+    - "user"
+    - "password"
+    properties:
+      user:
+        type: "string"
+        example: "user1"
+      password:
+        type: "string"
+        example: "password1"
   Usuario:
     type: "object"
     required:
@@ -315,16 +277,20 @@ definitions:
       descripcion:
         type: "string"
         example: "Lechuga, tomate, pan duro, jamon crudo, salsa cesar"
-  ApiResponse:
+  ActualizarPrecio:
     type: "object"
+    required:
+    - "id"
+    - "precio"
     properties:
-      code:
+      id:
         type: "integer"
-        format: "int32"
-      type:
-        type: "string"
-      message:
-        type: "string"
+        format: "int64"
+        example: "2"
+      precio:
+        type: "integer"
+        format: "int64"
+        example: "230"
 externalDocs:
   description: "Find out more about Swagger"
   url: "http://swagger.io"
