@@ -43,8 +43,8 @@ async function setPassword(usuario){
 }
 
 async function crearPlato(plato){
-  await myDataBase.query('INSERT INTO platos (nombre_plato, descripcion) VALUES (?, ?)', {
-    replacements: [plato.nombrePlato, plato.descripcion],
+  await myDataBase.query('INSERT INTO platos (nombre_plato, precio, descripcion) VALUES (?, ?, ?)', {
+    replacements: [plato.nombrePlato, plato.precio, plato.descripcion],
   });
   return { message: 'Plato creado'};
 }

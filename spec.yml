@@ -253,11 +253,16 @@ definitions:
     type: "object"
     required:
     - "nombrePlato"
+    - "precio"
     - "descripcion"
     properties:
       nombrePlato:
         type: "string"
         example: "Ensalada cesar"
+      precio:
+        type: "integer"
+        format: "int64"
+        example: 190
       descripcion:
         type: "string"
         example: "Lechuga, tomate, pan duro, jamon crudo, salsa cesar"
