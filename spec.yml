@@ -1,10 +1,8 @@
 swagger: "2.0"
 info:
-  description: "This is a sample server Delilah Resto server.  You can find out more about     Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).      For this sample, you can use the api key `special-key` to test the authorization     filters."
+  description: "API para pedidos de comida deliciosa. Como cliente, podras registrate, ver el listado de nuestros productos y realizar una orden. Los administradores del restaurante tienen la posibilidad de recibir pedidos y actualizarlos."
   version: "1.0.0"
   title: "Swagger Delilah Resto"
-  contact:
-    email: "santi.ithurralde@gmail.com"
   license:
     name: "Apache 2.0"
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
@@ -62,6 +60,19 @@ paths:
       responses:
         "201":
           description: "Usuario registrado exitosamente"
+          schema:
+            type: "object"
+            example:
+              id: 1
+              user: "user1"
+              password: "password1"
+              email: "user1@gmail.com"
+              name: "name_user1"
+              telefono: "+5412345678910"
+              direccion: "direccion 1"
+              admin: 0
+        "401":
+          description: "Usuario o contraseña invalidos."
   /usuario/update_password:  
     put:
       tags:
@@ -85,29 +96,6 @@ paths:
           description: "Contraseña actualizada."
         "404":
           description: "No existe el usuario."
-  /usuario:
-    get:
-      tags:
-      - "usuarios"
-      summary: "Obtiene un usuario"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "body"
-        in: "body"
-        description: "Campos de usuario y contraseña para ingresar"
-        required: true
-        schema:
-          $ref: "#/definitions/GetUsuario"
-      responses:
-        "200":
-          description: ""
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/GetUsuario"
-        "404":
-          description: "No existe el usuario"
   /plato/crear_plato:
     post:
       tags:
@@ -154,7 +142,11 @@ paths:
         required: true
       responses:
         "201":
-          description: "Plato creado"
+          description: "Precio actualizado correctamente."
+        "403":
+          description: "Tiene que ingresar como administrador para realizar la accion solicitada."
+        "404":
+          description: "El usuario no existe."
   /pedido/crear_pedido:
     post:
       tags:
@@ -196,19 +188,11 @@ paths:
       responses:
         "200":
           description: "JSON del pedido" 
+          schema:
+            type: "object"
+            example:
+              messsage : "Milanesa de carne con papas fritas, Matambre a la pizza, Papas fritas, "
 definitions:
-  GetUsuario:
-    type: "object"
-    required:
-    - "name"
-    - "password"
-    properties:
-      user:
-        type: "string"
-        example: "user1"
-      password:
-        type: "string"
-        example: "contraseña123"
   Loggin:
     type: "object"
     required:
@@ -291,6 +275,3 @@ definitions:
         type: "integer"
         format: "int64"
         example: "230"
-externalDocs:
-  description: "Find out more about Swagger"
-  url: "http://swagger.io"
