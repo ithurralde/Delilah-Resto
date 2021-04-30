@@ -61,6 +61,21 @@ async function actualizarPrecio(idPLato){
   return { message: "Precio actualizado correctamente."};
 }
 
+async function borrarPlato(idPLato){
+  let existe = await myDataBase.query('SELECT * FROM platos WHERE id = ?', {
+    replacements: [idPLato.id],
+    type: QueryTypes.SELECT
+  });
+  if (existe.length == 0)
+    return status(404);
+  await myDataBase.query('DELETE FROM platos WHERE id = ?', {
+    replacements: [idPLato.id],
+    type: QueryTypes.DELETE
+  });
+
+  return { message: "Plato eliminado correctamente."};
+}
+
 async function crearPedido(pedido) {
   await myDataBase.query('INSERT INTO pedidos (id, numero_pedido, id_usuario) VALUES (?, ?, ?)', {
     replacements: [pedido.id, pedido.numeroPedido, pedido.idUsuario],
@@ -99,4 +114,4 @@ async function getPedido(numeroPedido){
   return { message: respuesta }
 }
 
-module.exports = { crearUsuario, logginUsuario, getUsuario, setPassword, crearPlato, actualizarPrecio, crearPedido, getPedido };
+module.exports = { crearUsuario, logginUsuario, getUsuario, setPassword, crearPlato, actualizarPrecio, borrarPlato, crearPedido, getPedido };

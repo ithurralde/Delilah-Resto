@@ -117,6 +117,13 @@ server.put('/plato/actualizar_precio', autenticarUsuario, existeUsario, isAdmin,
   .catch(error => console.error("Error: " + error));
 });
 
+server.delete('/plato/borrar_plato', autenticarUsuario, existeUsario, isAdmin, (request, response) => {
+  let idPLato = request.body;
+  transactionHandler.borrarPlato(idPLato)
+  .then(respuesta => response.status(200).send(respuesta))
+  .catch(respuesta => response.status(404).send(respuesta));
+});
+
 server.post('/crear_pedido', autenticarUsuario, (request, response) => {
   let pedido = request.body;
   // console.log("Y el request????? " + pedido.platos.length);
