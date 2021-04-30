@@ -1,6 +1,8 @@
 const { response } = require('express');
 const { QueryTypes } = require('sequelize');
 const myDataBase = require('./conectionDB');
+
+
 async function crearUsuario(usuario) {
     await myDataBase.query('INSERT INTO usuarios (user, password, name, email, telefono, direccion, admin) VALUES (?, ?, ?, ?, ?, ?, ?)', {
       replacements: [usuario.user, usuario.password, usuario.name, usuario.email, usuario.telefono, usuario.direccion, usuario.admin],
@@ -26,6 +28,20 @@ async function getUsuario(id){
   });
 }
 
+async function setPassword(usuario){
+  let existe = await myDataBase.query('SELECT * FROM usuarios WHERE user = ?', {
+    replacements: [usuario.user],
+    type: QueryTypes.SELECT
+  });
+  if (existe.length == 0)
+    return status(404);
+  await myDataBase.query('UPDATE usuarios SET password = ? WHERE user = ?', {
+    replacements: [usuario.password, usuario.user],
+  });
+
+  return { message: "Contraseña actualizada."}
+}
+
 async function crearPlato(plato){
   await myDataBase.query('INSERT INTO platos (nombre_plato, descripcion) VALUES (?, ?)', {
     replacements: [plato.nombrePlato, plato.descripcion],
@@ -40,7 +56,7 @@ async function actualizarPrecio(idPLato){
   });
   await myDataBase.query('UPDATE platos SET precio = ? WHERE id = ?', {
     replacements: [idPLato.precio, plato[0].id],
-    type: QueryTypes.UPDATE
+    //type: QueryTypes.UPDATE
   });
   return { message: "Precio actualizado correctamente."};
 }
@@ -83,4 +99,4 @@ async function getPedido(numeroPedido){
   return { message: respuesta }
 }
 
-module.exports = { crearUsuario, logginUsuario, getUsuario, crearPlato, actualizarPrecio, crearPedido, getPedido };
+module.exports = { crearUsuario, logginUsuario, getUsuario, setPassword, crearPlato, actualizarPrecio, crearPedido, getPedido };

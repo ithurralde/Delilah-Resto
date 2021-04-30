@@ -1,10 +1,13 @@
-const { request, response } = require('express');
+// const { request, response } = require('express');
 let express = require('express');
 let server = express();
 const transactionHandler = require('./DBHandler.js');
 const jwt = require("jsonwebtoken");
 const jwtClave = "Cl4V3_J0t4D0bl3VT3$";
 let token;
+
+const expressJWT = require('express-jwt');
+const { request, response } = require('express');
 
 server.listen(3000, function () {
     console.log('Servidor conectado en el puerto 3000');
@@ -20,6 +23,9 @@ server.use((error, request, response, next) => {
       next();
     }
   });
+
+// server.use(expressJWT({ secret: jwtClave }).unless({ path: ['/crear_usuario'] }));
+
 
 //middleware local
 function interceptar(request, response, next){
@@ -48,7 +54,8 @@ server.get('/usuario/loggin', (request, response) => {
     let usuario = request.body;
     transactionHandler.logginUsuario(usuario)
     .then(respuesta => { 
-      token = jwt.sign({usuario: usuario.user, id: usuario.id}, jwtClave);
+      // el objeto {expiresIn: 15} hace que el token expira en 15 segundos.
+      token = jwt.sign({usuario: usuario.user, id: usuario.id}, jwtClave/*, {expiresIn: 15}*/);
       response.status(200).send(respuesta); })
     .catch(respuesta => {response.status(401).send({ message: "Usuario o contraseña invalidos."})});
 
@@ -62,6 +69,13 @@ server.post('/crear_usuario', (request, response) => {
     transactionHandler.crearUsuario(usuario)
     .then(resultado => { response.status(201).send(resultado);})
     .catch(error => { console.error("Error: ", error)});
+});
+
+server.put('/usuario/update_password', autenticarUsuario, (request, response) => {
+    let usuario = request.body;
+    transactionHandler.setPassword(usuario)
+    .then(resultado => { response.status(200).send(resultado);})
+    .catch(respuesta => {response.status(404).send({ message: "No existe el usuario."})});
 });
 
 
