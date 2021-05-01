@@ -58,7 +58,7 @@ server.post('/crear_usuario', (request, response) => {
     token = jwt.sign({usuario: usuario.user, id: usuario.id}, jwtClave);
     transactionHandler.crearUsuario(usuario)
     .then(resultado => { response.status(201).send(resultado);})
-    .catch(error => { console.error("Error: ", error)});
+    .catch(respuesta => {response.status(404).send({ message: "Ya existe el usuario o un usario ya esta usando ese email."})});
 });
 
 server.put('/usuario/update_password', autenticarUsuario, (request, response) => {

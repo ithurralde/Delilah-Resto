@@ -4,11 +4,23 @@ const myDataBase = require('./conectionDB');
 
 
 async function crearUsuario(usuario) {
-    await myDataBase.query('INSERT INTO usuarios (user, password, name, email, telefono, direccion, admin) VALUES (?, ?, ?, ?, ?, ?, ?)', {
-      replacements: [usuario.user, usuario.password, usuario.name, usuario.email, usuario.telefono, usuario.direccion, usuario.admin],
-    });
-    return { message: 'Usuario registrado exitosamente' };
-  }
+  let existe = await myDataBase.query('SELECT user FROM usuario WHERE user = ?', {
+    replacements: [usuario.user],
+    type: QueryTypes.SELECT
+  });
+  if (existe.length == 0)
+    return status(404);
+  existe = await myDataBase.query('SELECT email FROM usuario WHERE email = ?', {
+    replacements: [usuario.email],
+    type: QueryTypes.SELECT
+  });
+  if (existe.length == 0)
+    return status(404);
+  await myDataBase.query('INSERT INTO usuarios (user, password, name, email, telefono, direccion, admin) VALUES (?, ?, ?, ?, ?, ?, ?)', {
+    replacements: [usuario.user, usuario.password, usuario.name, usuario.email, usuario.telefono, usuario.direccion, usuario.admin],
+  });
+  return { message: 'Usuario registrado exitosamente' };
+}
   
 async function logginUsuario(usuario) {
     let resultado = await myDataBase.query('SELECT * FROM usuarios WHERE user = ? AND password = ?', {
