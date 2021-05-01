@@ -61,6 +61,12 @@ async function actualizarPrecio(idPLato){
   return { message: "Precio actualizado correctamente."};
 }
 
+async function getPlatos(){
+  return myDataBase.query('SELECT nombre_plato, descripcion, precio FROM platos', {
+    replacements: QueryTypes.SELECT
+  });
+}
+
 async function borrarPlato(idPLato){
   let existe = await myDataBase.query('SELECT * FROM platos WHERE id = ?', {
     replacements: [idPLato.id],
@@ -77,20 +83,23 @@ async function borrarPlato(idPLato){
 }
 
 async function crearPedido(pedido) {
-  await myDataBase.query('INSERT INTO pedidos (id, numero_pedido, id_usuario) VALUES (?, ?, ?)', {
-    replacements: [pedido.id, pedido.numeroPedido, pedido.idUsuario],
+  await myDataBase.query('INSERT INTO pedidos (numero_pedido, id_usuario) VALUES (?, ?)', {
+    replacements: [pedido.numeroPedido, pedido.idUsuario],
   });
   let i = 0;
+  let id = await myDataBase.query('SELECT id FROM pedidos ORDER BY id DESC LIMIT 0,1', {
+    replacements: QueryTypes.SELECT
+  });
   while (i < pedido.platos.length){
-    await rellenarFormaParte(pedido, pedido.platos[i]);
+    await rellenarFormaParte(id[0][0].id, pedido.platos[i]);
     i++;
   }
   return { message: "Numero pedido realizado " + pedido.numeroPedido };
 }
 
-async function rellenarFormaParte(pedido, plato){
+async function rellenarFormaParte(id, plato){
   await myDataBase.query('INSERT INTO forma_parte (id_pedido, id_plato) VALUES (?, ?)', {
-    replacements: [pedido.id, plato],
+    replacements: [id, plato],
   });
   return { message: "Plato agregado exitosamente: " + plato};
 }
@@ -114,4 +123,4 @@ async function getPedido(numeroPedido){
   return { message: respuesta }
 }
 
-module.exports = { crearUsuario, logginUsuario, getUsuario, setPassword, crearPlato, actualizarPrecio, borrarPlato, crearPedido, getPedido };
+module.exports = { crearUsuario, logginUsuario, getUsuario, setPassword, crearPlato, getPlatos, actualizarPrecio, borrarPlato, crearPedido, getPedido };

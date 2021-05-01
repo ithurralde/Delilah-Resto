@@ -181,6 +181,34 @@ paths:
           description: "Tiene que ingresar como administrador para realizar la accion solicitada."
         "404":
           description: "El usuario no existe."
+  /plato/platos:
+    get:
+      tags:
+      - "platos"
+      summary: "Lista todos los platos existentes"
+      description: ""
+      operationId: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "query"
+        name: "idUser"
+        type: "integer"
+        description: "Id del usuario que quiere actualizar el precio. Ejemplo: idUser=1"
+        required: true
+      responses:
+        "201":
+          description: "Plato eliminado correctamente."
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Platos"
+        "403":
+          description: "Tiene que ingresar como administrador para realizar la accion solicitada."
+        "404":
+          description: "El usuario no existe."
   /pedido/crear_pedido:
     post:
       tags:
@@ -284,6 +312,23 @@ definitions:
         type: "string"
         example: "new-password"
   Plato:
+    type: "object"
+    required:
+    - "nombrePlato"
+    - "precio"
+    - "descripcion"
+    properties:
+      nombrePlato:
+        type: "string"
+        example: "Ensalada cesar"
+      precio:
+        type: "integer"
+        format: "int64"
+        example: 190
+      descripcion:
+        type: "string"
+        example: "Lechuga, tomate, pan duro, jamon crudo, salsa cesar"
+  Platos:
     type: "object"
     required:
     - "nombrePlato"

@@ -117,6 +117,12 @@ server.put('/plato/actualizar_precio', autenticarUsuario, existeUsario, isAdmin,
   .catch(error => console.error("Error: " + error));
 });
 
+server.get('/plato/platos', autenticarUsuario, existeUsario, (request, response) => {
+  transactionHandler.getPlatos()
+  .then(respuesta => response.status(200).send(respuesta))
+  .catch(error => console.error("Error: ", error));
+});
+
 server.delete('/plato/borrar_plato', autenticarUsuario, existeUsario, isAdmin, (request, response) => {
   let idPLato = request.body;
   transactionHandler.borrarPlato(idPLato)
