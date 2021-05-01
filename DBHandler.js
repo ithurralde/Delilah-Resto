@@ -83,8 +83,8 @@ async function borrarPlato(idPLato){
 }
 
 async function crearPedido(pedido) {
-  await myDataBase.query('INSERT INTO pedidos (numero_pedido, id_usuario) VALUES (?, ?)', {
-    replacements: [pedido.numeroPedido, pedido.idUsuario],
+  await myDataBase.query('INSERT INTO pedidos (id_usuario, estado) VALUES (?, ?)', {
+    replacements: [pedido.idUsuario, pedido.estado],
   });
   let i = 0;
   let id = await myDataBase.query('SELECT id FROM pedidos ORDER BY id DESC LIMIT 0,1', {
@@ -94,7 +94,7 @@ async function crearPedido(pedido) {
     await rellenarFormaParte(id[0][0].id, pedido.platos[i]);
     i++;
   }
-  return { message: "Numero pedido realizado " + pedido.numeroPedido };
+  return { message: "Pedido realizado correctamente." };
 }
 
 async function rellenarFormaParte(id, plato){
@@ -102,6 +102,21 @@ async function rellenarFormaParte(id, plato){
     replacements: [id, plato],
   });
   return { message: "Plato agregado exitosamente: " + plato};
+}
+
+async function actualizar_estado(pedido){
+  let existe = await myDataBase.query('SELECT * FROM pedidos WHERE id = ?', {
+    replacements: [pedido.id],
+    type: QueryTypes.SELECT
+  })
+  if (existe.length == 0)
+    return status(404);
+  await myDataBase.query('UPDATE pedidos SET estado = ? WHERE id = ?', {
+    replacements: [pedido.estado, pedido.id],
+    type: QueryTypes.UPDATE
+  });
+
+  return { message: "Estado actualizado."};
 }
 
 async function getPedido(numeroPedido){
@@ -118,9 +133,11 @@ async function getPedido(numeroPedido){
     });
   }
 
-  let respuesta = "";
+  let respuesta = " ";
   resultado.forEach(plato => respuesta += plato[0].nombre_plato + ", ");
+  if (respuesta == " ")
+    return status(404);
   return { message: respuesta }
 }
 
-module.exports = { crearUsuario, logginUsuario, getUsuario, setPassword, crearPlato, getPlatos, actualizarPrecio, borrarPlato, crearPedido, getPedido };
+module.exports = { crearUsuario, logginUsuario, getUsuario, setPassword, crearPlato, getPlatos, actualizarPrecio, borrarPlato, crearPedido, actualizar_estado, getPedido };

@@ -38,7 +38,11 @@ paths:
           $ref: "#/definitions/Usuario"
       responses:
         "201":
-          description: "Usuario registrado exitosamente"
+          description: "Respuesta de exito"
+          schema:
+            type: "object"
+            example:
+              message: "Usuario registrado exitosamente"
   /usuario/loggin:
     get:
       tags:
@@ -72,7 +76,11 @@ paths:
               direccion: "direccion 1"
               admin: 0
         "401":
-          description: "Usuario o contraseña invalidos."
+          description: "Respuesta de error"
+          schema:
+            type: "object"
+            example:
+              message: "Usuario o contraseña invalidos."
   /usuario/update_password:  
     put:
       tags:
@@ -93,9 +101,17 @@ paths:
           $ref: "#/definitions/UpdateUsuario"
       responses:
         "200":
-          description: "Contraseña actualizada."
+          description: "Respuesta de exito"
+          schema:
+            type: "object"
+            example:
+              message: "Contraseña actualizada."
         "404":
-          description: "No existe el usuario."
+          description: "Respuesta de error"
+          schema:
+            type: "object"
+            example:
+              message: "No existe el usuario."
   /plato/crear_plato:
     post:
       tags:
@@ -116,11 +132,23 @@ paths:
           $ref: "#/definitions/Plato"
       responses:
         "201":
-          description: "Plato creado"
+          description: "Respuesta de exito"
+          schema:
+            type: "object"
+            example:
+              message: "Plato creado"
         "404":
-          description: "El usuario no existe."
+          description: "Respuesta de error"
+          schema:
+            type: "object"
+            example:
+              message: "El usuario no existe."
         "403":
-          description: "Tiene que ingresar como administrador para realizar la accion solicitada."
+          description: "Respuesta de error"
+          schema:
+            type: "object"
+            example:
+              message: "Tiene que ingresar como administrador para realizar la accion solicitada."
   /plato/actualizar_precio:
     put:
       tags:
@@ -142,15 +170,27 @@ paths:
       - in: "query"
         name: "idUser"
         type: "integer"
-        description: "Id del usuario que quiere actualizar el precio"
+        description: "Id del usuario que quiere actualizar el precio, debe ser administrador. Ejemplo: idUser=9"
         required: true
       responses:
         "201":
-          description: "Precio actualizado correctamente."
+          description: "Respuesta de exito"
+          schema:
+            type: "object"
+            example:
+              message: "Precio actualizado correctamente."
         "403":
-          description: "Tiene que ingresar como administrador para realizar la accion solicitada."
+          description: "Respuesta de error"
+          schema:
+            type: "object"
+            example:
+              message: "Tiene que ingresar como administrador para realizar la accion solicitada."
         "404":
-          description: "El usuario no existe."
+          description: "Respuesta de error"
+          schema:
+            type: "object"
+            example:
+              message: "El usuario no existe."
   /plato/borrar_plato:
     delete:
       tags:
@@ -172,15 +212,27 @@ paths:
       - in: "query"
         name: "idUser"
         type: "integer"
-        description: "Id del usuario que quiere actualizar el precio. Ejemplo: idUser=1"
+        description: "Id del usuario que quiere actualizar el precio, debe ser administrador. Ejemplo: idUser=9"
         required: true
       responses:
         "201":
-          description: "Plato eliminado correctamente."
+          description: "Respuesta de error"
+          schema:
+            type: "object"
+            example:
+              message: "Plato eliminado correctamente."
         "403":
-          description: "Tiene que ingresar como administrador para realizar la accion solicitada."
+          description: "Respuesta de error"
+          schema:
+            type: "object"
+            example:
+              message: "Tiene que ingresar como administrador para realizar la accion solicitada."
         "404":
-          description: "El usuario no existe."
+          description: "Respuesta de error"
+          schema:
+            type: "object"
+            example:
+              message: "El usuario no existe."
   /plato/platos:
     get:
       tags:
@@ -200,15 +252,23 @@ paths:
         required: true
       responses:
         "201":
-          description: "Plato eliminado correctamente."
+          description: "JSON del plato solicitado."
           schema:
             type: "array"
             items:
               $ref: "#/definitions/Platos"
         "403":
-          description: "Tiene que ingresar como administrador para realizar la accion solicitada."
+          description: "Respuesta de error"
+          schema:
+            type: "object"
+            example:
+              message: "Tiene que ingresar como administrador para realizar la accion solicitada."
         "404":
-          description: "El usuario no existe."
+          description: "Respuesta de error"
+          schema:
+            type: "object"
+            example:
+              message: "El usuario no existe."
   /pedido/crear_pedido:
     post:
       tags:
@@ -226,10 +286,14 @@ paths:
         description: "Formato JSON para crear un plato"
         required: true
         schema:
-          $ref: "#/definitions/Plato"
+          $ref: "#/definitions/CrearPedido"
       responses:
         "201":
-          description: "Plato creado"
+          description: "Respuesta de exito"
+          schema:
+            type: "object"
+            example:
+              message: "Pedido realizado correctamente."
   /pedido:
     get:
       tags:
@@ -254,6 +318,49 @@ paths:
             type: "object"
             example:
               messsage : "Milanesa de carne con papas fritas, Matambre a la pizza, Papas fritas, "
+        "404":
+          description: "Respuesta de error"
+          schema:
+            type: "object"
+            example:
+              message: "El pedido solicitado no existe."
+  /pedido/actualizar_estado:
+    get:
+      tags:
+      - "pedidos"
+      summary: "Actualiza el estado de un pedido"
+      description: ""
+      operationId: ""
+      consumes:
+      - "body"
+      - "query"
+      produces:
+      - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Formato JSON para actualizar el estado de un pedido"
+          required: true
+          schema:
+            $ref: "#/definitions/ActualizarPedido"
+        - in: "query"
+          name: "value"
+          type: "integer"
+          description: "Id del usuario que quiere actualizar el estado, debe ser usuario administrador. Ejemplo: idUser=9"
+          required: true
+      responses:
+        "200":
+          description: "JSON del pedido" 
+          schema:
+            type: "object"
+            example:
+              messsage : "Estado actualizado."
+        "404":
+          description: "JSON del pedido"
+          schema:
+            type: "object"
+            example:
+              message: "No existe el pedido."
 definitions:
   Loggin:
     type: "object"
@@ -369,3 +476,41 @@ definitions:
         type: "integer"
         format: "int64"
         example: "2"
+  CrearPedido:
+    type: "object"
+    required:
+    - "numeroPedido"
+    - "platos"
+    - "idUsuario"
+    - "estado"
+    properties:
+      numeroPedido:
+        type: "integer"
+        format: "int64"
+        example: "2"
+      platos:
+        type: "array"
+        items:
+          type: "integer"
+          format: "int64"
+          example: 1
+      idUsuario:
+        type: "integer"
+        format: "int64"
+        example: "2"
+      estado:
+        type: "string"
+        example: "preparando"
+  ActualizarPedido:
+    type: "object"
+    required:
+    - "id"
+    - "estado"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        example: 1
+      estado:
+        type: "string"
+        example: "preparando"

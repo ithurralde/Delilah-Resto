@@ -26,16 +26,6 @@ server.use((error, request, response, next) => {
 
 // server.use(expressJWT({ secret: jwtClave }).unless({ path: ['/crear_usuario'] }));
 
-
-//middleware local
-function interceptar(request, response, next){
-    response.json("Acceso denegado");
-    return next();
-}
-server.get('/test_middleware', interceptar, (request, response) => {
-
-});
-
 const autenticarUsuario = (request, response, next) => {
   try {
       const token = request.headers.authorization.split(' ')[1];
@@ -139,10 +129,17 @@ server.post('/crear_pedido', autenticarUsuario, (request, response) => {
   .catch(error => console.error("Error: ", error));
 })
 
+server.put('/pedido/actualizar_estado', autenticarUsuario, existeUsario, isAdmin, (request, response) => {
+  let pedido = request.body;
+  transactionHandler.actualizar_estado(pedido)
+  .then(respuesta => response.status(200).send(respuesta))
+  .catch(respuesta => response.status(404).send({ message: "No existe el pedido."}));
+});
+
 server.get('/pedido', autenticarUsuario, (request, response) => {
   let pedido = request.query.value;
   console.log("el pedido es: " + pedido);
   transactionHandler.getPedido(pedido)
   .then(respuesta => response.status(200).send(respuesta))
-  .catch(error => console.error(error));
+  .catch(respuesta => response.status(404).send({ message : "El pedido solicitado no existe."}));
 });
