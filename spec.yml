@@ -57,7 +57,7 @@ paths:
       parameters:
       - in: "body"
         name: "body"
-        description: "Formato JSON para añadir un usuario"
+        description: "Formato JSON para ingresar como un usuario"
         required: true
         schema:
           $ref: "#/definitions/Loggin"
@@ -95,7 +95,7 @@ paths:
       parameters:
       - in: "body"
         name: "body"
-        description: "Pet object that needs to be added to the store"
+        description: "Formato JSON para actualizar la contraseña de un usuario"
         required: true
         schema:
           $ref: "#/definitions/UpdateUsuario"
@@ -136,6 +136,11 @@ paths:
         required: true
         schema:
           $ref: "#/definitions/Plato"
+      - in: "query"
+        name: "idUser"
+        type: "integer"
+        description: "Id del usuario que quiere crear un plato debe ser administrador. Ejemplo: idUser=9"
+        required: true
       responses:
         "201":
           description: "Respuesta de exito"
@@ -159,7 +164,7 @@ paths:
     put:
       tags:
       - "platos"
-      summary: "Crea un nuevo plato"
+      summary: "Actualiza el precio de un plato"
       description: ""
       operationId: ""
       consumes:
@@ -254,7 +259,7 @@ paths:
       - in: "query"
         name: "idUser"
         type: "integer"
-        description: "Id del usuario que quiere actualizar el precio. Ejemplo: idUser=1"
+        description: "Id del usuario que quiere ver todos los platos. Ejemplo: idUser=1"
         required: true
       responses:
         "201":
@@ -479,15 +484,10 @@ definitions:
   CrearPedido:
     type: "object"
     required:
-    - "numeroPedido"
     - "platos"
     - "idUsuario"
     - "estado"
     properties:
-      numeroPedido:
-        type: "integer"
-        format: "int64"
-        example: "2"
       platos:
         type: "array"
         items:
