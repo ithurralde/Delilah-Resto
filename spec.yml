@@ -325,7 +325,7 @@ paths:
             example:
               message: "El pedido solicitado no existe."
   /pedido/actualizar_estado:
-    get:
+    put:
       tags:
       - "pedidos"
       summary: "Actualiza el estado de un pedido"
