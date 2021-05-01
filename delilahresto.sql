@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 31-03-2021 a las 17:38:02
+-- Tiempo de generación: 01-05-2021 a las 16:47:07
 -- Versión del servidor: 10.4.17-MariaDB
 -- Versión de PHP: 8.0.2
 
@@ -39,7 +39,21 @@ CREATE TABLE `forma_parte` (
 INSERT INTO `forma_parte` (`id_pedido`, `id_plato`) VALUES
 (2, 1),
 (2, 2),
-(2, 3);
+(2, 3),
+(69, 1),
+(69, 2),
+(69, 3),
+(69, 5),
+(70, 1),
+(70, 2),
+(70, 3),
+(70, 4),
+(70, 5),
+(71, 1),
+(71, 2),
+(71, 3),
+(71, 4),
+(71, 5);
 
 -- --------------------------------------------------------
 
@@ -49,16 +63,19 @@ INSERT INTO `forma_parte` (`id_pedido`, `id_plato`) VALUES
 
 CREATE TABLE `pedidos` (
   `id` int(11) NOT NULL,
-  `numero_pedido` int(11) NOT NULL,
-  `id_usuario` int(11) NOT NULL
+  `id_usuario` int(11) NOT NULL,
+  `estado` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `pedidos`
 --
 
-INSERT INTO `pedidos` (`id`, `numero_pedido`, `id_usuario`) VALUES
-(2, 123, 1);
+INSERT INTO `pedidos` (`id`, `id_usuario`, `estado`) VALUES
+(2, 1, 'entregado'),
+(69, 1, 'preparando'),
+(70, 1, 'cancelado'),
+(71, 5, 'preparando');
 
 -- --------------------------------------------------------
 
@@ -78,10 +95,11 @@ CREATE TABLE `platos` (
 --
 
 INSERT INTO `platos` (`id`, `nombre_plato`, `descripcion`, `precio`) VALUES
-(1, 'Milanesa de carne con papas fritas', 'hola', 0),
-(2, 'Matambre a la pizza', NULL, 0),
-(3, 'Papas fritas', NULL, 0),
-(4, 'Parrillada para dos con fritas', 'tirada de asado, vacio, pollo, chori y morci', 0);
+(1, 'Milanesa de carne con papas fritas', 'Tradicional mila con fritas', 450),
+(2, 'Matambre a la pizza', NULL, 500),
+(3, 'Papas fritas', NULL, 23),
+(4, 'Parrillada para dos con fritas', 'tirada de asado, vacio, pollo, chori y morci', 0),
+(5, 'Ensalada cesar', 'Lechuga, tomate, pan duro, jamon crudo, salsa cesar', 0);
 
 -- --------------------------------------------------------
 
@@ -96,17 +114,22 @@ CREATE TABLE `usuarios` (
   `email` varchar(30) NOT NULL,
   `name` varchar(30) DEFAULT NULL,
   `telefono` varchar(16) NOT NULL,
-  `direccion` varchar(50) NOT NULL
+  `direccion` varchar(50) NOT NULL,
+  `admin` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`id`, `user`, `password`, `email`, `name`, `telefono`, `direccion`) VALUES
-(1, 'tatto', 'asd23', 'tatto@gmail.com', 'santiago', '+542262562389', '9 de julio 1052'),
-(2, 'bren', 'la13', 'brenwayne@gmail.com', 'bren', '+542494568989', 'alberdi 1880'),
-(5, 'bren2', 'la13', 'brenwayne2@gmail.com', 'bren', '+542284584848', 'alberdi 1880');
+INSERT INTO `usuarios` (`id`, `user`, `password`, `email`, `name`, `telefono`, `direccion`, `admin`) VALUES
+(1, 'tatto', 'asd23', 'tatto@gmail.com', 'santiago', '+542262562389', '9 de julio 1052', 0),
+(2, 'bren', '12345', 'brenwayne@gmail.com', 'bren', '+542494568989', 'alberdi 1880', 0),
+(5, 'bren2', 'ss22d3', 'brenwayne2@gmail.com', 'bren', '+542284584848', 'alberdi 1880', 0),
+(9, 'admin', 'admin', 'admin@gmail.com', 'admin', '+54226215568941', '9 de julio 552', 1),
+(11, 'otroAdm', 'admin', 'admin32@gmail.com', 'admin', '+54226215568941', '9 de julio 1015', 1),
+(12, 'pepe', 'pepe', 'pepe94@gmail.com', 'pepe', '+542262484874', 'General Paz 541', 0),
+(15, 'jorge', 'asdjorge', 'jorge@gmail.com', 'jorge32', '+542262484874', 'Alberdi 1008', 0);
 
 --
 -- Índices para tablas volcadas
@@ -148,19 +171,19 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT de la tabla `platos`
 --
 ALTER TABLE `platos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- Restricciones para tablas volcadas

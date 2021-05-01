@@ -106,6 +106,12 @@ paths:
             type: "object"
             example:
               message: "Contraseña actualizada."
+        "403":
+          description: "Respuesta de error"
+          schema:
+            type: "object"
+            example:
+              message: "Tiene que ingresar como administrador para realizar la accion solicitada."
         "404":
           description: "Respuesta de error"
           schema:
@@ -257,12 +263,6 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/Platos"
-        "403":
-          description: "Respuesta de error"
-          schema:
-            type: "object"
-            example:
-              message: "Tiene que ingresar como administrador para realizar la accion solicitada."
         "404":
           description: "Respuesta de error"
           schema:
