@@ -28,7 +28,8 @@ _En la consola bash de visual studio code se inicializo npm init --yes, y se ins
 ### Comando para ejecutar el servidor
 _En la consola de visual studio code escribir: node .\server.js           -> para correr el servidor_
 
-# Una vez corriendo el servidor, se utiliza swagger: http://localhost:3000/delilahresto 
+# Una vez corriendo el servidor, se utiliza swagger: 
+## http://localhost:3000/delilahresto
 
 ## Token JWS para que funcionen algunos end-points (en swagger):
 _en swagger simplemente haciendo click en authorize, ingresar: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.pPblodGgwKxB3YDA5LHdYsx3LYiGjUUEjTkeIHUKKsU_
