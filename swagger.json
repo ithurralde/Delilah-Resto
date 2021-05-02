@@ -472,7 +472,7 @@
         ]
       }
     },
-    "/pedido/crear_pedido": {
+    "/crear_pedido": {
       "post": {
         "tags": [
           "pedidos"
@@ -610,6 +610,17 @@
                   "example": {
                     "messsage": "Estado actualizado."
                   }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "JSON del pedido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": "Error al validar usuario."
                 }
               }
             }

@@ -45,7 +45,8 @@ const autenticarUsuario = (request, response, next) => {
         return next();
       }
   } catch (error){
-      response.json({ error: "Error al validar usuario." }); 
+      //response.json({ error: "Error al validar usuario." }); 
+      return response.status(403).send({ message: "Error al validar usuario." });
   }
 }
 
