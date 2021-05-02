@@ -1,9 +1,11 @@
 instalar npm para gestion de proyectos
 instalar node para correr el servidor
-instalar xampp, correr apache y MySql para que funcione correctamente la base de datos en: http://localhost/phpmyadmin/db_structure.php?server=1&db=delilahresto
+instalar xampp para correr apache y MySql y que funcione correctamente la base de datos en: http://localhost/phpmyadmin/db_structure.php?server=1&db=delilahresto
 nombre de la base de datos: delilahresto
+
+abrir xampp y ejecutar Apache y MySQL (hacer click en la accion Admin de MySQL desde xampp para abrir http://localhost/phpmyadmin/)
 importar delilahresto.sql en http://localhost/phpmyadmin/
-se instalaron los siguientes: 
+En la consola bash de visual studio code se inicializo npm init --yes, y se instalaron los siguientes paquetes: 
     npm i express
     npm i sequelize
     npm i mysql2
@@ -13,9 +15,9 @@ se instalaron los siguientes:
 
 Nombre de la base de datos: delilahresto
 
-abrir consola en visual studio code en la carpeta del proyecto y escribir: node .\server.js
+En la consola en visual studio code escribir: node .\server.js           -> para correr el servidor
 
-Se utiliza postman para acceder a los end-points mediante post, put, get y delete o bien swagger: http://localhost:3000/delilahresto
+Una vez corriendo el servidor, se utiliza postman para acceder a los end-points mediante post, put, get y delete o bien swagger: http://localhost:3000/delilahresto
 Token JWS para que funcionen algunos end-points:
 Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.pPblodGgwKxB3YDA5LHdYsx3LYiGjUUEjTkeIHUKKsU en los siguientes:
 http://localhost:3000/crear_pedido
