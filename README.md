@@ -37,9 +37,9 @@ _en swagger simplemente haciendo click en authorize, ingresar:_
 ```
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.pPblodGgwKxB3YDA5LHdYsx3LYiGjUUEjTkeIHUKKsU
 ```
-```
-luego click en Authorize
-```
+
+_luego click en Authorize_
+
 
 # o bien se puede utilizar postman para acceder a los end-points mediante post, put, get y delete.
 
