@@ -1,4 +1,4 @@
-instalar npm para gestion de proyectos
+instalar npm para gestion de proyectos \n
 instalar node para correr el servidor
 instalar xampp para correr apache y MySql y que funcione correctamente la base de datos en: http://localhost/phpmyadmin/db_structure.php?server=1&db=delilahresto
 nombre de la base de datos: delilahresto
