@@ -18,12 +18,12 @@ _importar el archivo delilahresto.sql (en la carpeta del proyecto) en http://loc
 
 ### Visual studio code
 _En la consola bash de visual studio code se inicializo npm init --yes, y se instalaron los siguientes paquetes:_
-    _npm i express_
-    _npm i sequelize_
-    _npm i mysql2_
-    _npm i jsonwebtoken_
-    _npm i swagger-ui-express_
-    _npm i swagger-jsdoc_
+* npm i express
+* npm i sequelize
+* npm i mysql2
+* npm i jsonwebtoken
+* npm i swagger-ui-express
+* npm i swagger-jsdoc
 
 ### Comando para ejecutar el servidor
 _En la consola en visual studio code escribir: node .\server.js           -> para correr el servidor_
