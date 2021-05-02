@@ -376,10 +376,7 @@ paths:
       requestBody:
         description: Formato JSON para actualizar el estado de un pedido
         content:
-          body:
-            schema:
-              $ref: '#/components/schemas/ActualizarPedido'
-          query:
+          application/json:
             schema:
               $ref: '#/components/schemas/ActualizarPedido'
         required: true
@@ -526,11 +523,9 @@ components:
       type: object
       properties:
         platos:
-          type: array
-          items:
-            type: integer
-            format: int64
-            example: 1
+          type: integer
+          format: int64
+          example: [1, 2, 3]
         idUsuario:
           type: integer
           format: int64
@@ -547,7 +542,7 @@ components:
         id:
           type: integer
           format: int64
-          example: 2
+          example: 1
         estado:
           type: string
           example: preparando
