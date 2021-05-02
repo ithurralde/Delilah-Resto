@@ -10,7 +10,7 @@ _https://www.apachefriends.org/es/download.html_
 _nombre que se le dio a la base de datos para el proyecto_
 
 ### Configuracion en xampp
-_abrir xampp como administrador y ejecutar Apache y MySQL (hacer click en la accion Admin de MySQL desde xampp para abrir http://localhost/phpmyadmin/)_
+_abrir xampp como administrador y ejecutar Apache y MySQL (hacer click en la accion "Admin" de MySQL desde xampp para abrir http://localhost/phpmyadmin/)_
 
 
 ### Una vez abierto phpmyadmin:
