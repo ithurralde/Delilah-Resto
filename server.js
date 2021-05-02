@@ -14,11 +14,12 @@ server.listen(3000, function () {
 });
 
 
+
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 
 
-server.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+server.use('/delilahresto', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 
 server.use(express.json());

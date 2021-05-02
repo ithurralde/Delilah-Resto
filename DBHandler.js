@@ -4,22 +4,23 @@ const myDataBase = require('./conectionDB');
 
 
 async function crearUsuario(usuario) {
-  let existe = await myDataBase.query('SELECT user FROM usuario WHERE user = ?', {
+  let existe = await myDataBase.query('SELECT user FROM usuarios WHERE user = ?', {
     replacements: [usuario.user],
     type: QueryTypes.SELECT
   });
-  if (existe.length == 0)
-    return status(404);
-  existe = await myDataBase.query('SELECT email FROM usuario WHERE email = ?', {
-    replacements: [usuario.email],
-    type: QueryTypes.SELECT
-  });
-  if (existe.length == 0)
-    return status(404);
-  await myDataBase.query('INSERT INTO usuarios (user, password, name, email, telefono, direccion, admin) VALUES (?, ?, ?, ?, ?, ?, ?)', {
-    replacements: [usuario.user, usuario.password, usuario.name, usuario.email, usuario.telefono, usuario.direccion, usuario.admin],
-  });
-  return { message: 'Usuario registrado exitosamente' };
+  if (existe.length == 0){
+    existe = await myDataBase.query('SELECT email FROM usuarios WHERE email = ?', {
+      replacements: [usuario.email],
+      type: QueryTypes.SELECT
+    });
+    if (existe.length == 0){
+      await myDataBase.query('INSERT INTO usuarios (user, password, name, email, telefono, direccion, admin) VALUES (?, ?, ?, ?, ?, ?, ?)', {
+        replacements: [usuario.user, usuario.password, usuario.name, usuario.email, usuario.telefono, usuario.direccion, usuario.admin],
+      });
+      return { message: 'Usuario registrado exitosamente' };
+    }
+  }
+  return status(404);
 }
   
 async function logginUsuario(usuario) {
@@ -118,6 +119,8 @@ async function rellenarFormaParte(id, plato){
 }
 
 async function actualizar_estado(pedido){
+  console.log("el id:");
+  console.log(pedido.id);
   let existe = await myDataBase.query('SELECT * FROM pedidos WHERE id = ?', {
     replacements: [pedido.id],
     type: QueryTypes.SELECT
