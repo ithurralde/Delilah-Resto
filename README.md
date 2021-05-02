@@ -1,13 +1,17 @@
 # Delilah Resto
 _Instalaciones que se hicieron en el proyecto:_
-## instalar npm para gestion de proyectos
-## instalar node para correr el servidor
-## instalar xampp para correr apache y MySql y que funcione correctamente la base de datos en: http://localhost/phpmyadmin/db_structure.php?server=1&db=delilahresto
-## nombre de la base de datos: delilahresto
+## instalar npm para gestion de proyectos y node para correr el servidor
+_https://www.npmjs.com/get-npm_
 
+## instalar xampp para correr apache y MySql y que funcione correctamente la base de datos en: http://localhost/phpmyadmin/db_structure.php?server=1&db=delilahresto
+_https://www.apachefriends.org/es/download.html_
+
+## nombre de la base de datos: delilahresto
+_nombre que se le dio a la base de datos para el proyecto_
 
 ### Configuracion en xampp
 _abrir xampp y ejecutar Apache y MySQL (hacer click en la accion Admin de MySQL desde xampp para abrir http://localhost/phpmyadmin/)_
+
 
 ### Una vez abierto phpmyadmin:
 _importar el archivo delilahresto.sql (del proyecto) en http://localhost/phpmyadmin/_
