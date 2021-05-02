@@ -40,7 +40,7 @@ const autenticarUsuario = (request, response, next) => {
   }
 }
 
-server.get('/usuario/loggin', (request, response) => {
+server.post('/usuario/loggin', (request, response) => {
     let usuario = request.body;
     transactionHandler.logginUsuario(usuario)
     .then(respuesta => { 
@@ -114,10 +114,12 @@ server.get('/plato/platos', autenticarUsuario, existeUsario, (request, response)
 });
 
 server.delete('/plato/borrar_plato', autenticarUsuario, existeUsario, isAdmin, (request, response) => {
-  let idPLato = request.body;
-  transactionHandler.borrarPlato(idPLato)
+  let idPlato = request.query.idPlato;
+  console.log("the plat is?");
+  console.log(idPlato);
+  transactionHandler.borrarPlato(idPlato)
   .then(respuesta => response.status(200).send(respuesta))
-  .catch(respuesta => response.status(404).send(respuesta));
+  .catch(respuesta => response.status(404).send({ message: "No existe plato."}));
 });
 
 server.post('/crear_pedido', autenticarUsuario, (request, response) => {

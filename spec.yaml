@@ -1,0 +1,526 @@
+swagger: '2.0'
+info:
+  description: >-
+    API para pedidos de comida deliciosa. Como cliente, podras registrate, ver
+    el listado de nuestros productos y realizar una orden. Los administradores
+    del restaurante tienen la posibilidad de recibir pedidos y actualizarlos.
+  version: 1.0.0
+  title: Swagger Delilah Resto
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+host: 'localhost:3000'
+basePath: /
+tags:
+  - name: usuarios
+    description: Todos los end-points relacionados a un usuario
+  - name: platos
+    description: Todos los end-points relacionados a un plato
+  - name: pedidos
+    description: Todos los end-points relacionados a un pedido
+schemes:
+  - http
+paths:
+  /crear_usuario:
+    post:
+      tags:
+        - usuarios
+      summary: Añade un nuevo usuario a la aplicación
+      description: ''
+      operationId: ''
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Formato JSON para añadir un usuario
+          required: true
+          schema:
+            $ref: '#/definitions/Usuario'
+      responses:
+        '201':
+          description: Respuesta de exito
+          schema:
+            type: object
+            example:
+              message: Usuario registrado exitosamente
+  /usuario/loggin:
+    post:
+      tags:
+        - usuarios
+      summary: Ingresa a la plataforma como usuario registrado
+      description: ''
+      operationId: ''
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Formato JSON para ingresar como un usuario
+          required: true
+          schema:
+            $ref: '#/definitions/Loggin'
+      responses:
+        '201':
+          description: Usuario registrado exitosamente
+          schema:
+            type: object
+            example:
+              id: 1
+              user: user1
+              password: password1
+              email: user1@gmail.com
+              name: name_user1
+              telefono: '+5412345678910'
+              direccion: direccion 1
+              admin: 0
+        '401':
+          description: Respuesta de error
+          schema:
+            type: object
+            example:
+              message: Usuario o contraseña invalidos.
+  /usuario/update_password:
+    put:
+      tags:
+        - usuarios
+      summary: Actualiza la contraseña de un usuario
+      description: ''
+      operationId: updatePet
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Formato JSON para actualizar la contraseña de un usuario
+          required: true
+          schema:
+            $ref: '#/definitions/UpdateUsuario'
+      responses:
+        '200':
+          description: Respuesta de exito
+          schema:
+            type: object
+            example:
+              message: Contraseña actualizada.
+        '403':
+          description: Respuesta de error
+          schema:
+            type: object
+            example:
+              message: >-
+                Tiene que ingresar como administrador para realizar la accion
+                solicitada.
+        '404':
+          description: Respuesta de error
+          schema:
+            type: object
+            example:
+              message: No existe el usuario.
+  /plato/crear_plato:
+    post:
+      tags:
+        - platos
+      summary: Crea un nuevo plato
+      description: ''
+      operationId: ''
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Formato JSON para crear un plato
+          required: true
+          schema:
+            $ref: '#/definitions/Plato'
+        - in: query
+          name: idUser
+          type: integer
+          description: >-
+            Id del usuario que quiere crear un plato debe ser administrador.
+            Ejemplo: idUser=9
+          required: true
+      responses:
+        '201':
+          description: Respuesta de exito
+          schema:
+            type: object
+            example:
+              message: Plato creado
+        '403':
+          description: Respuesta de error
+          schema:
+            type: object
+            example:
+              message: >-
+                Tiene que ingresar como administrador para realizar la accion
+                solicitada.
+        '404':
+          description: Respuesta de error
+          schema:
+            type: object
+            example:
+              message: El usuario no existe.
+  /plato/actualizar_precio:
+    put:
+      tags:
+        - platos
+      summary: Actualiza el precio de un plato
+      description: ''
+      operationId: ''
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Formato JSON para crear un plato
+          required: true
+          schema:
+            $ref: '#/definitions/ActualizarPrecio'
+        - in: query
+          name: idUser
+          type: integer
+          description: >-
+            Id del usuario que quiere actualizar el precio, debe ser
+            administrador. Ejemplo: idUser=9
+          required: true
+      responses:
+        '201':
+          description: Respuesta de exito
+          schema:
+            type: object
+            example:
+              message: Precio actualizado correctamente.
+        '403':
+          description: Respuesta de error
+          schema:
+            type: object
+            example:
+              message: >-
+                Tiene que ingresar como administrador para realizar la accion
+                solicitada.
+        '404':
+          description: Respuesta de error
+          schema:
+            type: object
+            example:
+              message: El usuario no existe.
+  /plato/borrar_plato:
+    delete:
+      tags:
+        - platos
+      summary: Elimina un plato ya existente de la base de datos
+      description: ''
+      operationId: ''
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: idPlato
+          type: integer
+          description: "Formato JSON para crear un plato"
+          required: true
+        - in: query
+          name: idUser
+          type: integer
+          description: >-
+            Id del usuario que quiere actualizar el precio, debe ser
+            administrador. Ejemplo: idUser=9
+          required: true
+      responses:
+        '201':
+          description: Respuesta de error
+          schema:
+            type: object
+            example:
+              message: Plato eliminado correctamente.
+        '403':
+          description: Respuesta de error
+          schema:
+            type: object
+            example:
+              message: >-
+                Tiene que ingresar como administrador para realizar la accion
+                solicitada.
+        '404':
+          description: Respuesta de error
+          schema:
+            type: object
+            example:
+              message: El usuario no existe.
+  /plato/platos:
+    get:
+      tags:
+        - platos
+      summary: Lista todos los platos existentes
+      description: ''
+      operationId: ''
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: idUser
+          type: integer
+          description: 'Id del usuario que quiere ver todos los platos. Ejemplo: idUser=1'
+          required: true
+      responses:
+        '201':
+          description: JSON del plato solicitado.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Platos'
+        '404':
+          description: Respuesta de error
+          schema:
+            type: object
+            example:
+              message: El usuario no existe.
+  /pedido/crear_pedido:
+    post:
+      tags:
+        - pedidos
+      summary: Crea un nuevo pedido
+      description: ''
+      operationId: ''
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Formato JSON para crear un plato
+          required: true
+          schema:
+            $ref: '#/definitions/CrearPedido'
+      responses:
+        '201':
+          description: Respuesta de exito
+          schema:
+            type: object
+            example:
+              message: Pedido realizado correctamente.
+  /pedido:
+    get:
+      tags:
+        - pedidos
+      summary: Obtiene un pedido
+      description: ''
+      operationId: ''
+      consumes:
+        - query params
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: value
+          type: integer
+          description: 'Id del pedido que desea obtener, ejemplo: value=2'
+          required: true
+      responses:
+        '200':
+          description: JSON del pedido
+          schema:
+            type: object
+            example:
+              messsage: >-
+                Milanesa de carne con papas fritas, Matambre a la pizza, Papas
+                fritas, 
+        '404':
+          description: Respuesta de error
+          schema:
+            type: object
+            example:
+              message: El pedido solicitado no existe.
+  /pedido/actualizar_estado:
+    put:
+      tags:
+        - pedidos
+      summary: Actualiza el estado de un pedido
+      description: ''
+      operationId: ''
+      consumes:
+        - body
+        - query
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Formato JSON para actualizar el estado de un pedido
+          required: true
+          schema:
+            $ref: '#/definitions/ActualizarPedido'
+        - in: query
+          name: value
+          type: integer
+          description: >-
+            Id del usuario que quiere actualizar el estado, debe ser usuario
+            administrador. Ejemplo: idUser=9
+          required: true
+      responses:
+        '200':
+          description: JSON del pedido
+          schema:
+            type: object
+            example:
+              messsage: Estado actualizado.
+        '404':
+          description: JSON del pedido
+          schema:
+            type: object
+            example:
+              message: No existe el pedido.
+definitions:
+  Loggin:
+    type: object
+    required:
+      - user
+      - password
+    properties:
+      user:
+        type: string
+        example: user1
+      password:
+        type: string
+        example: password1
+  Usuario:
+    type: object
+    required:
+      - user
+      - password
+      - name
+      - email
+      - direccion
+      - telefono
+      - admin
+    properties:
+      user:
+        type: string
+        example: admin
+      password:
+        type: string
+        example: admin123
+      name:
+        type: string
+        example: admin04
+      email:
+        type: string
+        example: admin@gmail.com
+      direccion:
+        type: string
+        example: 14 de julio 1554
+      telefono:
+        type: string
+        example: '+54011485619'
+      admin:
+        type: boolean
+        example: 'true'
+  UpdateUsuario:
+    type: object
+    required:
+      - user
+      - password
+    properties:
+      nombrePlato:
+        type: string
+        example: user1
+      descripcion:
+        type: string
+        example: new-password
+  Plato:
+    type: object
+    required:
+      - nombrePlato
+      - precio
+      - descripcion
+    properties:
+      nombrePlato:
+        type: string
+        example: Ensalada cesar
+      precio:
+        type: integer
+        format: int64
+        example: 190
+      descripcion:
+        type: string
+        example: 'Lechuga, tomate, pan duro, jamon crudo, salsa cesar'
+  Platos:
+    type: object
+    required:
+      - nombrePlato
+      - precio
+      - descripcion
+    properties:
+      nombrePlato:
+        type: string
+        example: Ensalada cesar
+      precio:
+        type: integer
+        format: int64
+        example: 190
+      descripcion:
+        type: string
+        example: 'Lechuga, tomate, pan duro, jamon crudo, salsa cesar'
+  ActualizarPrecio:
+    type: object
+    required:
+      - id
+      - precio
+    properties:
+      id:
+        type: integer
+        format: int64
+        example: '2'
+      precio:
+        type: integer
+        format: int64
+        example: '230'
+  CrearPedido:
+    type: object
+    required:
+      - platos
+      - idUsuario
+      - estado
+    properties:
+      platos:
+        type: array
+        items:
+          type: integer
+          format: int64
+          example: 1
+      idUsuario:
+        type: integer
+        format: int64
+        example: '2'
+      estado:
+        type: string
+        example: preparando
+  ActualizarPedido:
+    type: object
+    required:
+      - id
+      - estado
+    properties:
+      id:
+        type: integer
+        format: int64
+        example: 1
+      estado:
+        type: string
+        example: preparando

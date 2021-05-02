@@ -81,13 +81,13 @@ async function getPlatos(){
 
 async function borrarPlato(idPLato){
   let existe = await myDataBase.query('SELECT * FROM platos WHERE id = ?', {
-    replacements: [idPLato.id],
+    replacements: [idPLato],
     type: QueryTypes.SELECT
   });
   if (existe.length == 0)
     return status(404);
   await myDataBase.query('DELETE FROM platos WHERE id = ?', {
-    replacements: [idPLato.id],
+    replacements: [idPLato],
     type: QueryTypes.DELETE
   });
 
