@@ -44,7 +44,10 @@ _luego click en Authorize_
 # o bien se puede utilizar postman para acceder a los end-points mediante post, put, get y delete.
 
 ## Token JWS para que funcionen algunos end-points (en postman):
-_Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.pPblodGgwKxB3YDA5LHdYsx3LYiGjUUEjTkeIHUKKsU en los siguientes:_
+```
+Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.pPblodGgwKxB3YDA5LHdYsx3LYiGjUUEjTkeIHUKKsU
+```
+_en los siguientes:_
 * http://localhost:3000/crear_pedido
 * http://localhost:3000/plato/crear_plato
 * http://localhost:3000/pedido
