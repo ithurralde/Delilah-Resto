@@ -14,7 +14,7 @@ _abrir xampp y ejecutar Apache y MySQL (hacer click en la accion Admin de MySQL 
 
 
 ### Una vez abierto phpmyadmin:
-_importar el archivo delilahresto.sql (del proyecto) en http://localhost/phpmyadmin/_
+_importar el archivo delilahresto.sql (en la carpeta del proyecto) en http://localhost/phpmyadmin/_
 
 ### Visual studio code
 _En la consola bash de visual studio code se inicializo npm init --yes, y se instalaron los siguientes paquetes:_
