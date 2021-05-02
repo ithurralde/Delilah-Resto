@@ -60,6 +60,19 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "Respuesta de error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "message": "Ya existe el usuario o un usario ya esta usando ese email."
+                  }
+                }
+              }
+            }
           }
         },
         "x-codegen-request-body-name": "body"
