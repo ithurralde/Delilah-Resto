@@ -26,7 +26,7 @@ _En la consola bash de visual studio code se inicializo npm init --yes, y se ins
 * npm i swagger-jsdoc
 
 ### Comando para ejecutar el servidor
-_En la consola de visual studio code escribir: node .\server.js           -> para correr el servidor_
+_En la consola de visual studio code escribir: "node .\server.js" (sin comillas) para correr el servidor_
 
 # Una vez corriendo el servidor, se utiliza swagger: 
 _http://localhost:3000/delilahresto_
