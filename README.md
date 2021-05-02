@@ -35,7 +35,7 @@ _En la consola de visual studio code escribir: "node .\server.js" (sin comillas)
 _http://localhost:3000/delilahresto_
 _Se utiliza swagger para realizar los end-points al servidor_
 
-## Token JWS para que funcionen algunos end-points (en swagger):
+## Token JWS para que funcionen algunos end-points:
 _en swagger simplemente haciendo click en authorize, ingresar:_ 
 ```
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.pPblodGgwKxB3YDA5LHdYsx3LYiGjUUEjTkeIHUKKsU
@@ -46,7 +46,7 @@ _luego click en Authorize_
 # POSTMAN
 # o bien se puede utilizar postman para acceder a los end-points mediante post, put, get y delete.
 
-## Token JWS para que funcionen algunos end-points (en postman):
+## Token JWS para que funcionen algunos end-points:
 ```
 Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.pPblodGgwKxB3YDA5LHdYsx3LYiGjUUEjTkeIHUKKsU
 ```
