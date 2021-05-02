@@ -119,8 +119,6 @@ async function rellenarFormaParte(id, plato){
 }
 
 async function actualizar_estado(pedido){
-  console.log("el id:");
-  console.log(pedido.id);
   let existe = await myDataBase.query('SELECT * FROM pedidos WHERE id = ?', {
     replacements: [pedido.id],
     type: QueryTypes.SELECT

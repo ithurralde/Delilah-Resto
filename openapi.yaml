@@ -547,7 +547,7 @@ components:
         id:
           type: integer
           format: int64
-          example: 1
+          example: 2
         estado:
           type: string
           example: preparando

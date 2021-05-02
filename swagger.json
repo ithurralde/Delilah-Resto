@@ -587,12 +587,7 @@
         "requestBody": {
           "description": "Formato JSON para actualizar el estado de un pedido",
           "content": {
-            "body": {
-              "schema": {
-                "$ref": "#/components/schemas/ActualizarPedido"
-              }
-            },
-            "query": {
+            "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/ActualizarPedido"
               }
@@ -803,12 +798,13 @@
         "type": "object",
         "properties": {
           "platos": {
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "int64",
-              "example": 1
-            }
+            "type": "integer",
+            "format": "int64",
+            "example": [
+              1,
+              2,
+              3
+            ]
           },
           "idUsuario": {
             "type": "integer",
