@@ -74,9 +74,10 @@ async function actualizarPrecio(idPLato){
 }
 
 async function getPlatos(){
-  return myDataBase.query('SELECT nombre_plato, descripcion, precio FROM platos', {
+  let r = await myDataBase.query('SELECT nombre_plato, descripcion, precio FROM platos', {
     replacements: QueryTypes.SELECT
   });
+  return r[0];
 }
 
 async function borrarPlato(idPLato){

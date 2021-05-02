@@ -13,6 +13,14 @@ server.listen(3000, function () {
     console.log('Servidor conectado en el puerto 3000');
 });
 
+
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+
+
+server.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+
 server.use(express.json());
 
 //middleware global
