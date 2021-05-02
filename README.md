@@ -14,7 +14,7 @@ _abrir xampp como administrador y ejecutar Apache y MySQL (hacer click en la acc
 
 
 ### Una vez abierto phpmyadmin:
-_crear una nueva base de datos con el nombre "delilahresto" (sin comillas) e importar el archivo delilahresto.sql (que se encuentra en la carpeta del proyecto)
+_crear una nueva base de datos con el nombre "delilahresto" (sin comillas) e importar el archivo delilahresto.sql (que se encuentra en la carpeta del proyecto)_
 
 ### Visual studio code
 _En la consola bash de visual studio code se inicializo npm init --yes, y se instalaron los siguientes paquetes:_
