@@ -6,6 +6,7 @@ _https://www.npmjs.com/get-npm_
 ## instalar xampp, correr apache y MySql para que funcione correctamente la base de datos en phpmyadmin
 _https://www.apachefriends.org/es/download.html_
 
+# Configuracion de la Base de Datos
 ## nombre de la base de datos: delilahresto
 _nombre que se le dio a la base de datos para el proyecto_
 
@@ -16,6 +17,7 @@ _abrir xampp como administrador y ejecutar Apache y MySQL (hacer click en la acc
 ### Una vez abierto phpmyadmin:
 _crear una nueva base de datos con el nombre "delilahresto" (sin comillas) e importar el archivo delilahresto.sql (que se encuentra en la carpeta del proyecto)_
 
+# Configuracion en Visual Studio Code
 ### Visual studio code
 _En la consola bash de visual studio code se inicializo npm init --yes, y se instalaron los siguientes paquetes:_
 * npm i express
@@ -28,6 +30,7 @@ _En la consola bash de visual studio code se inicializo npm init --yes, y se ins
 ### Comando para ejecutar el servidor
 _En la consola de visual studio code escribir: "node .\server.js" (sin comillas) para correr el servidor_
 
+# SWAGGER_
 # Una vez corriendo el servidor, se utiliza swagger: 
 _http://localhost:3000/delilahresto_
 _Se utiliza swagger para realizar los end-points al servidor_
@@ -40,7 +43,7 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4
 
 _luego click en Authorize_
 
-
+# POSTMAN
 # o bien se puede utilizar postman para acceder a los end-points mediante post, put, get y delete.
 
 ## Token JWS para que funcionen algunos end-points (en postman):
