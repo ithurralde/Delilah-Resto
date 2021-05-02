@@ -3,7 +3,7 @@ _Instalaciones que se hicieron en el proyecto:_
 ## instalar npm para gestion de proyectos y node para correr el servidor
 _https://www.npmjs.com/get-npm_
 
-## instalar xampp para correr apache y MySql y que funcione correctamente la base de datos en phpmyadmin
+## instalar xampp para correr apache y MySql para que funcione correctamente la base de datos en phpmyadmin
 _https://www.apachefriends.org/es/download.html_
 
 ## nombre de la base de datos: delilahresto
