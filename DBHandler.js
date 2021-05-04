@@ -154,4 +154,36 @@ async function getPedido(numeroPedido){
   return { message: respuesta }
 }
 
-module.exports = { crearUsuario, logginUsuario, getUsuario, setPassword, crearPlato, getPlatos, actualizarPrecio, borrarPlato, crearPedido, actualizar_estado, getPedido };
+async function borrarPedido(idPedido){
+  let existe = await myDataBase.query('SELECT * FROM pedidos WHERE id = ?', {
+    replacements: [idPedido],
+    type: QueryTypes.SELECT
+  });
+  console.log(existe);
+  console.log(existe.length);
+  if (existe.length == 0)
+    return status(404);
+  
+  await eliminarFormaParte(idPedido);
+  await myDataBase.query('DELETE FROM pedidos WHERE id = ?', {
+    replacements: [idPedido],
+    type: QueryTypes.DELETE
+  });
+
+
+  return { message: "Pedido eliminado correctamente."}
+}
+
+async function eliminarFormaParte(idPedido){
+  let eliminar = [];
+  eliminar = await myDataBase.query('SELECT * FROM forma_parte WHERE id_pedido = ?', {
+    replacements: [idPedido],
+    type: QueryTypes.SELECT
+  });
+  console.log(eliminar);
+  eliminar.forEach(async pedido => await myDataBase.query('DELETE FROM forma_parte WHERE id_pedido = ?', { 
+    replacements: [pedido.id_pedido],
+    type: QueryTypes.DELETE},));
+}
+
+module.exports = { crearUsuario, logginUsuario, getUsuario, setPassword, crearPlato, getPlatos, actualizarPrecio, borrarPlato, crearPedido, actualizar_estado, getPedido, borrarPedido };

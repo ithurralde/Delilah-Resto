@@ -125,7 +125,6 @@ server.get('/plato/platos', autenticarUsuario, existeUsario, (request, response)
 
 server.delete('/plato/borrar_plato', autenticarUsuario, existeUsario, isAdmin, (request, response) => {
   let idPlato = request.query.idPlato;
-  console.log("the plat is?");
   console.log(idPlato);
   transactionHandler.borrarPlato(idPlato)
   .then(respuesta => response.status(200).send(respuesta))
@@ -155,3 +154,11 @@ server.get('/pedido', autenticarUsuario, (request, response) => {
   .then(respuesta => response.status(200).send(respuesta))
   .catch(respuesta => response.status(404).send({ message : "El pedido solicitado no existe."}));
 });
+
+server.delete('/pedido/borrar_pedido', autenticarUsuario, existeUsario, isAdmin, (request, response) => {
+  let idPedido = request.query.idPedido;
+  console.log(idPedido);
+  transactionHandler.borrarPedido(idPedido)
+  .then(respuesta => response.status(200).send(respuesta))
+  .catch(respuesta => response.status(404).send({ message: "No existe el pedido."}));
+})
